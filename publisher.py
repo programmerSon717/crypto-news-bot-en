@@ -125,7 +125,7 @@ def render(data: dict, url: str) -> str:
     # 실시간이 아닌 글(백필 등)은 언제 올라온 글인지 밝혀준다.
     posted = data.get("_posted_label")
     if posted and not data.get("_headline_in_caption"):   # 캡션에 이미 넣었으면 생략
-        parts += [f"🕒 {e(posted)} {T('posted')}", ""]
+        parts += [f"🕒 {T('posted')} {e(posted)}", ""]
 
     parts += [_source_line(data, url), "", e(tags)]
     return "\n".join(parts)
@@ -193,6 +193,25 @@ def _build_tags(data: dict) -> str:
     return " ".join(out[:4])          # 너무 많으면 지저분하다
 
 
+# 매체 이름이 원문 언어로 들어오는 경우가 있다. 구글뉴스 검색으로 들어온 기사는
+# 제목 뒤에 붙은 매체명을 그대로 쓰기 때문이다("… - 뉴스핌").
+# 영문 채널에 한글·한자 매체명이 그대로 나가면 독자가 못 읽으므로 영문 표기로 바꾼다.
+# 목록에 없는 것은 그대로 둔다 — 없는 이름을 지어내는 것보다 원문이 낫다.
+OUTLETS = {
+    "토큰포스트": "TokenPost", "블록미디어": "Blockmedia", "블록체인투데이": "Blockchain Today",
+    "디센터": "Decenter", "코인데스크코리아": "CoinDesk Korea", "코인리더스": "Coinreaders",
+    "뉴스핌": "Newspim", "서울경제TV": "SEDaily TV", "서울경제": "SEDaily",
+    "IT조선": "IT Chosun", "전자신문": "ET News", "머니투데이": "Money Today",
+    "한국경제": "Korea Economic Daily", "매일경제": "Maeil Business",
+    "연합뉴스": "Yonhap", "조선비즈": "ChosunBiz", "이데일리": "Edaily",
+    "파이낸셜뉴스": "Financial News", "아시아경제": "Asia Economy",
+    "Investing 경제뉴스": "Investing.com", "연준 연설": "Federal Reserve",
+    "あたらしい経済": "Atarashii Keizai", "コインポスト": "CoinPost",
+    "財新": "Caixin", "新浪财经": "Sina Finance", "东方财富": "Eastmoney",
+    "华尔街日报中文网": "WSJ Chinese", "金色财经": "Jinse Finance",
+}
+
+
 def source_label(raw: str) -> str:
     """수집처 내부 이름 → 독자에게 보여줄 매체명."""
     s = (raw or "").strip()
@@ -211,7 +230,8 @@ def source_label(raw: str) -> str:
                             inner.replace(" ", "").lower())
         if inner in _DROPPABLE or norm_inner == norm_head:
             s = head
-    return _TAIL_WORD.sub("", s).strip()
+    s = _TAIL_WORD.sub("", s).strip()
+    return OUTLETS.get(s, s)
 
 
 def origin_of(data: dict) -> tuple[str, str]:

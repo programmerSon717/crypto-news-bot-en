@@ -138,10 +138,14 @@ def annotate_origin(data: dict, item: NewsItem):
 
     # 기사·문서의 발행 시각은 **항상** 표기한다(사용자 요청).
     # 실시간이든 백필이든 언제 나온 뉴스인지 알 수 있어야 한다.
+    #
+    # 표기는 UTC 다. 한국어판은 KST 를 쓰지만 이 채널의 독자는 세계 각지에 있고,
+    # 한국 시간은 그들에게 아무 기준도 되지 못한다. UTC 는 어느 시간대에서든
+    # 환산이 되는 유일한 공통 기준이다.
     if item.published_at is None:
         return
-    dt = datetime.fromtimestamp(item.published_at, KST)
-    data["_posted_label"] = dt.strftime("%Y-%m-%d %H:%M KST")
+    dt = datetime.fromtimestamp(item.published_at, timezone.utc)
+    data["_posted_label"] = dt.strftime("%Y-%m-%d %H:%M UTC")
 
 
 def age_limit_hours(item: NewsItem) -> int:

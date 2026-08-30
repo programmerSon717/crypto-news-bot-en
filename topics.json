@@ -1,0 +1,18 @@
+{
+  "Korea Policy": 2,
+  "US Policy": 3,
+  "Japan Policy": 4,
+  "Hong Kong Policy": 5,
+  "Singapore Policy": 6,
+  "UAE Policy": 7,
+  "Vietnam Policy": 8,
+  "Global Policy": 9,
+  "Korea Macro": 10,
+  "US Macro": 11,
+  "Korea Equities": 12,
+  "US Equities": 13,
+  "China": 14,
+  "Global Macro": 15,
+  "Exchange Issue": 16,
+  "Main Issue": 17
+}

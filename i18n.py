@@ -9,7 +9,7 @@ STRINGS = {
     "section_default": "Key points",
     "update": "Update",
     "source_link": "Read the original",
-    "posted": "published",
+    "posted": "Published",
     "insight_context": "Context",
     "insight_impact": "Impact",
     "insight_watch": "What to watch",
