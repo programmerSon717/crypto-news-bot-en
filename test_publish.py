@@ -12,7 +12,7 @@ from summarizer import summarize
 store = Store(settings.db_path)
 
 SOURCES = [
-    ("블록미디어", "https://www.blockmedia.co.kr/feed", "국내"),
+    ("Blockmedia", "https://www.blockmedia.co.kr/feed", "국내"),
     ("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/", "해외"),
 ]
 

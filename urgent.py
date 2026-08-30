@@ -19,12 +19,12 @@ from models import NewsItem
 #   미국 건은 🇺🇸미국매크로(키 'US Rates'), 나머지 나라는 🌐글로벌매크로.
 #   예전에는 전부 Global Macro 로 몰았는데, 사용자가 "미국 매크로는 미국매크로 탭에
 #   모으고 싶다"고 해서 나눈다. country.enforce() 도 원래 이 방향으로 보정한다.
-US_TAB = "US Rates"
+US_TAB = "US Macro"
 TARGET_TAB = "Global Macro"
 
 # FOMC·미국 거시·잭슨홀은 여기에도 한 부 더 올린다(사용자 지시).
 # 채널에서 가장 많이 보는 탭이라 미국 관련 굵직한 건은 놓치면 안 된다.
-MIRROR_TAB = "이슈"
+MIRROR_TAB = "Main Issue"
 
 # 미러 대상 판정에 쓰는 미국 관련 표현
 _US = re.compile(
@@ -102,13 +102,13 @@ async def collect(client: httpx.AsyncClient) -> list[NewsItem]:
     # 발표 직후 창(기본 45분)을 벗어난 과거 이벤트는 아예 내보내지 않는다.
     for it in await te_calendar.fetch(client):
         it.force_category = target_tab(it.title, it.region_hint)
-        if should_mirror("지표", it.title, it.region_hint):
+        if should_mirror("indicator", it.title, it.region_hint):
             it.mirror_to = MIRROR_TAB
         hits.append(it)
 
     # ── 2. 지표 발표 '기사' (구조화된 판정) ──
     for it in await tradingeconomics.fetch(client):
-        label = it.region_hint.split("/")[0].removeprefix("지표:") or "지표"
+        label = it.region_hint.split("/")[0].removeprefix("indicator:") or "indicator"
         it.force_category = target_tab(it.title, it.region_hint)
         if should_mirror(label, it.title, it.region_hint):
             it.mirror_to = MIRROR_TAB

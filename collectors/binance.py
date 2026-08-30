@@ -31,11 +31,11 @@ async def fetch(client: httpx.AsyncClient) -> list[NewsItem]:
                     code = a.get("code", "")
                     items.append(
                         NewsItem(
-                            source="Binance 공지",
+                            source="Binance Notice",
                             unique_id=code,
                             title=a.get("title", ""),
                             url=f"https://www.binance.com/en/support/announcement/{code}",
-                            region_hint="해외",
+                            region_hint="Global",
                         )
                     )
         except Exception as e:

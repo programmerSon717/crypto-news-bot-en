@@ -19,11 +19,11 @@ async def fetch(client: httpx.AsyncClient) -> list[NewsItem]:
         notices = (r.json().get("data") or {}).get("notices", [])
         return [
             NewsItem(
-                source="Upbit 공지",
+                source="Upbit Notice",
                 unique_id=str(n["id"]),
                 title=n.get("title", ""),
                 url=f"https://upbit.com/service_center/notice?id={n['id']}",
-                region_hint="국내",
+                region_hint="Korea",
             )
             for n in notices
         ]

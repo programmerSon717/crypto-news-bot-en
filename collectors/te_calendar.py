@@ -125,7 +125,7 @@ async def fetch(client: httpx.AsyncClient) -> list[NewsItem]:
             continue          # 방금 발표된 것만. 과거는 뒤늦게 긁어오지 않는다
         ready += 1
         head = f"[{row['iso']}] {row['event']} — 실제 {row['actual']}"
-        detail = [f"지표: {row['event']}", f"국가: {row['iso']}",
+        detail = [f"indicator: {row['event']}", f"국가: {row['iso']}",
                   f"실제: {row['actual']}"]
         if row["forecast"]:
             head += f" (예상 {row['forecast']})"
@@ -139,7 +139,7 @@ async def fetch(client: httpx.AsyncClient) -> list[NewsItem]:
             title=head,
             url=row["url"],
             body="\n".join(detail),
-            region_hint=f"지표:캘린더/{row['iso']}",
+            region_hint=f"indicator:캘린더/{row['iso']}",
             published_at=when.timestamp(),
         ))
     if rows:

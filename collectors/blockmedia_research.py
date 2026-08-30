@@ -18,8 +18,8 @@ from models import NewsItem
 
 API = "https://www.blockmedia.co.kr/wp-json/wp/v2/posts"
 CATEGORY_ID = 56530          # 'research' 슬러그의 카테고리 id
-SOURCE = "블록미디어"          # 일반 피드와 같은 이름 = 중복제거 키 공유
-TARGET_TAB = "이슈"           # 사용자 지정: 이 소스는 무조건 이슈 탭
+SOURCE = "Blockmedia"          # 일반 피드와 같은 이름 = 중복제거 키 공유
+TARGET_TAB = "Main Issue"           # 사용자 지정: 이 소스는 무조건 이슈 탭
 
 # 사용자가 지정한 키워드. 제목+본문에서 하나라도 걸리면 수집한다.
 # '토큰'이 '토큰화'를 포함하지만, 로그에 어떤 말이 걸렸는지 남기려고 둘 다 둔다.
@@ -91,7 +91,7 @@ async def fetch(client: httpx.AsyncClient, limit: int = 20,
                 title=title,
                 url=link,
                 body=body[:2000],
-                region_hint="국내/리서치",
+                region_hint="Korea/리서치",
                 published_at=published,
                 force_category=TARGET_TAB,
             )

@@ -18,13 +18,13 @@ import re
 GENERAL_SOURCES = {
     # 종합 일간·경제지
     "Gulf News", "Arabian Business", "Economy Middle East",
-    "Vietnam News", "VnExpress", "SCMP(홍콩)",
-    "Business Times(싱가포르)", "Straits Times(싱가포르)",
+    "Vietnam News", "VnExpress", "SCMP (Hong Kong)",
+    "Business Times (Singapore)", "Straits Times (Singapore)",
     "ZDNet Korea", "Tech in Asia",
     # 핀테크 일반 — 크립토 비중이 낮다
     "FinTech News ME", "FinTech News SG",
     # 규제기관 피드 — 대부분 크립토와 무관한 은행·증권 공지다
-    "금융위원회 보도자료", "SEC 보도자료", "CFTC 보도자료", "연준 보도자료",
+    "FSC Press", "SEC Press", "CFTC Press", "Federal Reserve Press",
 }
 
 # 크립토·디지털자산 낱말. 소스가 여러 언어라 한국어·영어·중국어·일본어를 함께 본다.

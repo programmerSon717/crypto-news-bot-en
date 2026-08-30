@@ -52,7 +52,7 @@ async def _article(client: httpx.AsyncClient, url: str, epoch: float) -> NewsIte
         dm = _DESC_RE.search(html)
         body = dm.group(1).strip() if dm else ""
         return NewsItem(
-            source="블록미디어",
+            source="Blockmedia",
             unique_id=url,          # RSS와 동일한 키(URL)라 중복 발행되지 않는다
             title=title,
             url=url,

@@ -28,9 +28,9 @@ SIGNALS: dict[str, tuple[str, ...]] = {
 
 # 나라 전용 탭. 이 탭에 다른 나라 기사가 들어가면 안 된다.
 COUNTRY_TABS: dict[str, str] = {
-    "US Rates": "US", "US Equities": "US",
-    "Korea Rates": "KR", "Korea Equities": "KR",
-    "국내정책": "KR", "US Policy": "US", "Japan Policy": "JP",
+    "US Macro": "US", "US Equities": "US",
+    "Korea Macro": "KR", "Korea Equities": "KR",
+    "Korea Policy": "KR", "US Policy": "US", "Japan Policy": "JP",
     "Hong Kong Policy": "HK", "Singapore Policy": "SG",
     "UAE Policy": "UAE", "Vietnam Policy": "VN", "China": "CN",
 }
@@ -38,7 +38,7 @@ COUNTRY_TABS: dict[str, str] = {
 COUNTRY_TABS["UAE Policy"] = "AE"
 
 # 시장·거시 성격의 탭 (정책 탭과 구분해서 대체 탭을 고를 때 쓴다)
-MARKET_TABS = {"Korea Rates", "US Rates", "Korea Equities", "US Equities",
+MARKET_TABS = {"Korea Macro", "US Macro", "Korea Equities", "US Equities",
                "Global Macro", "China"}
 
 _WORD = re.compile(r"[A-Za-z]+")
@@ -96,9 +96,9 @@ def text_of(data: dict) -> str:
 
 # 카테고리 성격. 옮길 때 금리↔증시↔정책이 섞이지 않게 한다.
 KIND = {
-    "US Rates": "rates", "Korea Rates": "rates",
+    "US Macro": "rates", "Korea Macro": "rates",
     "US Equities": "equities", "Korea Equities": "equities",
-    "국내정책": "policy", "US Policy": "policy", "Japan Policy": "policy",
+    "Korea Policy": "policy", "US Policy": "policy", "Japan Policy": "policy",
     "Hong Kong Policy": "policy", "Singapore Policy": "policy",
     "UAE Policy": "policy", "Vietnam Policy": "policy",
 }
@@ -106,21 +106,21 @@ KIND = {
 # 나라 × 성격 → 갈 탭. 없는 조합은 catch-all 로 보낸다.
 # 중국은 단일 탭이 정책·거시·증시를 다 받는다.
 DEST: dict[str, dict[str, str]] = {
-    "US": {"rates": "US Rates", "equities": "US Equities", "policy": "US Policy"},
-    "KR": {"rates": "Korea Rates", "equities": "Korea Equities", "policy": "국내정책"},
+    "US": {"rates": "US Macro", "equities": "US Equities", "policy": "US Policy"},
+    "KR": {"rates": "Korea Macro", "equities": "Korea Equities", "policy": "Korea Policy"},
     "CN": {"rates": "China", "equities": "China", "policy": "China"},
     "JP": {"policy": "Japan Policy"},
     "HK": {"policy": "Hong Kong Policy"},
     "SG": {"policy": "Singapore Policy"},
     "AE": {"policy": "UAE Policy"},
     "VN": {"policy": "Vietnam Policy"},
-    "EU": {"policy": "해외정책"},
+    "EU": {"policy": "Global Policy"},
 }
 
 
 # catch-all 탭. 전용 탭이 있는 나라의 기사가 여기 머물러선 안 된다.
 # (해외정책 탭에 미국 SEC 기사가 남아 있던 사고가 있었다)
-CATCH_ALL = {"해외정책": "policy", "Global Macro": "rates"}
+CATCH_ALL = {"Global Policy": "policy", "Global Macro": "rates"}
 
 
 def enforce(category: str, data: dict) -> tuple[str, str | None]:
@@ -162,7 +162,7 @@ def enforce(category: str, data: dict) -> tuple[str, str | None]:
     dest = DEST.get(found, {}).get(kind)
     if not dest:
         # 그 나라의 해당 성격 탭이 없으면 성격에 맞는 catch-all 로
-        dest = "Global Macro" if kind in ("rates", "equities") else "해외정책"
+        dest = "Global Macro" if kind in ("rates", "equities") else "Global Policy"
 
     if dest == category:
         return category, None

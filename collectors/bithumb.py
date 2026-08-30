@@ -14,7 +14,7 @@ import httpx
 from models import NewsItem
 
 API = "https://api.bithumb.com/v1/notices"
-SOURCE = "빗썸 공지"
+SOURCE = "Bithumb Notice"
 KST = datetime.timezone(datetime.timedelta(hours=9))
 UA = {
     "User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -56,7 +56,7 @@ async def fetch(client: httpx.AsyncClient, count: int = 20) -> list[NewsItem]:
             title=f"[빗썸] {title}" + (f" ({cats})" if cats else ""),
             url=url,
             body=f"빗썸 공지사항. 분류: {cats or '일반'}. 제목: {title}",
-            region_hint="국내/거래소",
+            region_hint="Korea/거래소",
             published_at=_epoch(n.get("published_at", "")),
         ))
     if rows:

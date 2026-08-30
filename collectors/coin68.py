@@ -75,7 +75,7 @@ async def fetch(client: httpx.AsyncClient, limit: int = 15) -> list[NewsItem]:
                 url=f"https://coin68.com/{slug}/",
                 body=(post.get("description") or post.get("excerpt") or "")[:2000],
                 # 베트남어 기사다. 분류·요약 시 베트남 정책일 가능성을 높게 보라는 힌트.
-                region_hint="베트남",
+                region_hint="Vietnam",
                 published_at=_epoch(post),
             )
         )

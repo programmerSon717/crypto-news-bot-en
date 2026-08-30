@@ -83,33 +83,33 @@ class Settings:
     # 그래서 구글뉴스 검색 피드로 "그 나라 + 규제" 를 직접 겨냥한다.
     # 힌트에 '규제'가 들어가면 프롬프트가 정책 탭 후보로 우선 판단한다.
     regulation_sources: list = field(default_factory=lambda: [
-        ("규제:미국", "crypto regulation SEC OR CFTC OR stablecoin bill when:7d", "en-US", "US", "US:en", "미국/규제"),
-        ("규제:한국", "가상자산 규제 금융위 OR 금감원 OR 디지털자산기본법 when:7d", "ko", "KR", "KR:ko", "한국/규제"),
-        ("규제:일본", "暗号資産 規制 金融庁 OR ステーブルコイン when:7d", "ja", "JP", "JP:ja", "일본/규제"),
-        ("규제:홍콩", "Hong Kong crypto regulation SFC OR stablecoin when:7d", "en-US", "US", "US:en", "홍콩/규제"),
-        ("규제:싱가포르", # 현행 "Singapore crypto regulation MAS OR digital token" 은 구글이
+        ("reg:US", "crypto regulation SEC OR CFTC OR stablecoin bill when:7d", "en-US", "US", "US:en", "US/regulation"),
+        ("reg:Korea", "가상자산 규제 금융위 OR 금감원 OR 디지털자산기본법 when:7d", "ko", "KR", "KR:ko", "Korea/regulation"),
+        ("reg:Japan", "暗号資産 規制 金融庁 OR ステーブルコイン when:7d", "ja", "JP", "JP:ja", "Japan/regulation"),
+        ("reg:Hong Kong", "Hong Kong crypto regulation SFC OR stablecoin when:7d", "en-US", "US", "US:en", "Hong Kong/regulation"),
+        ("reg:Singapore", # 현행 "Singapore crypto regulation MAS OR digital token" 은 구글이
          # `Singapore crypto regulation (MAS OR digital token)` 로 풀어
          # 싱가포르와 무관한 글로벌 규제 기사를 물어왔다(51건 중 9건만 싱가포르).
          # MAS 를 따옴표로 고정하니 20건 중 18건이 싱가포르 건이 됐다.
-         'Singapore "MAS" crypto OR digital asset OR stablecoin when:14d', "en-US", "US", "US:en", "싱가포르/규제"),
-        ("규제:UAE", "UAE OR Dubai crypto regulation VARA OR ADGM when:7d", "en-US", "US", "US:en", "UAE/규제"),
-        ("규제:베트남", "quy định tài sản số OR crypto Việt Nam when:7d", "vi", "VN", "VN:vi", "베트남/규제"),
-        ("규제:중국", "China crypto regulation PBOC OR digital yuan when:7d", "en-US", "US", "US:en", "중국/규제"),
+         'Singapore "MAS" crypto OR digital asset OR stablecoin when:14d', "en-US", "US", "US:en", "Singapore/regulation"),
+        ("reg:UAE", "UAE OR Dubai crypto regulation VARA OR ADGM when:7d", "en-US", "US", "US:en", "UAE/regulation"),
+        ("reg:Vietnam", "quy định tài sản số OR crypto Việt Nam when:7d", "vi", "VN", "VN:vi", "Vietnam/regulation"),
+        ("reg:China", "China crypto regulation PBOC OR digital yuan when:7d", "en-US", "US", "US:en", "China/regulation"),
         # 아래는 RSS 가 없는 매체를 site: 검색으로 대체한 것.
         # (Decenter·The Block·CoinDesk 규제·Blockhead·BlockBeats·Odaily·Caixin·
         #  Foresight News·VIR — 전부 피드 경로 탐색 실패)
-        ("Decenter", "site:decenter.kr 가상자산 OR 디지털자산 OR 스테이블코인 when:7d", "ko", "KR", "KR:ko", "한국/규제"),
+        ("Decenter", "site:decenter.kr 가상자산 OR 디지털자산 OR 스테이블코인 when:7d", "ko", "KR", "KR:ko", "Korea/regulation"),
         # 중국어 원문 정책 기사. 위 영어 쿼리는 서방 매체만 잡아서
         # 인민은행·증감회의 실제 발표를 놓친다.
-        ("규제:중국", "中国 加密货币 OR 稳定币 OR 区块链 监管 OR 政策 when:7d",
-         "zh-CN", "CN", "CN:zh-Hans", "중국/규제"),
-        ("CoinDesk 규제", "site:coindesk.com regulation OR SEC OR policy when:7d", "en-US", "US", "US:en", "미국/규제"),
-        ("The Block", "site:theblock.co regulation OR policy OR SEC when:7d", "en-US", "US", "US:en", "미국/규제"),
-        ("Blockhead", "site:blockhead.co MAS OR regulation OR tokenisation when:7d", "en-US", "US", "US:en", "싱가포르/규제"),
-        ("BlockBeats", "site:theblockbeats.info 香港 OR 监管 OR 稳定币 when:7d", "zh-CN", "CN", "CN:zh-Hans", "중국/규제"),
-        ("Odaily", "site:odaily.news 监管 OR 稳定币 OR 香港 when:7d", "zh-CN", "CN", "CN:zh-Hans", "중국/규제"),
-        ("Foresight News", "site:foresightnews.pro 香港 OR 监管 OR RWA when:7d", "zh-CN", "CN", "CN:zh-Hans", "홍콩/규제"),
-        ("Vietnam Investment Review", "site:vir.com.vn crypto OR blockchain OR digital asset when:7d", "en-US", "US", "US:en", "베트남/규제"),
+        ("reg:China", "中国 加密货币 OR 稳定币 OR 区块链 监管 OR 政策 when:7d",
+         "zh-CN", "CN", "CN:zh-Hans", "China/regulation"),
+        ("CoinDesk Regulation", "site:coindesk.com regulation OR SEC OR policy when:7d", "en-US", "US", "US:en", "US/regulation"),
+        ("The Block", "site:theblock.co regulation OR policy OR SEC when:7d", "en-US", "US", "US:en", "US/regulation"),
+        ("Blockhead", "site:blockhead.co MAS OR regulation OR tokenisation when:7d", "en-US", "US", "US:en", "Singapore/regulation"),
+        ("BlockBeats", "site:theblockbeats.info 香港 OR 监管 OR 稳定币 when:7d", "zh-CN", "CN", "CN:zh-Hans", "China/regulation"),
+        ("Odaily", "site:odaily.news 监管 OR 稳定币 OR 香港 when:7d", "zh-CN", "CN", "CN:zh-Hans", "China/regulation"),
+        ("Foresight News", "site:foresightnews.pro 香港 OR 监管 OR RWA when:7d", "zh-CN", "CN", "CN:zh-Hans", "Hong Kong/regulation"),
+        ("Vietnam Investment Review", "site:vir.com.vn crypto OR blockchain OR digital asset when:7d", "en-US", "US", "US:en", "Vietnam/regulation"),
     ])
 
     # 긴급 레인 전용 소스 — 짧은 주기로 따로 돌린다(urgent.py 참고).
@@ -119,80 +119,80 @@ class Settings:
     urgent_sources: list = field(default_factory=lambda: [
         # news_95(경제 지표 뉴스)는 뺐다 — Trading Economics 가 같은 발표를
         # 구조화된 형태로 더 정확히 주므로, 함께 두면 같은 지표가 두 번 발행된다.
-        ("Investing 경제뉴스", "https://kr.investing.com/rss/news_14.rss", "지표"),
+        ("Investing 경제뉴스", "https://kr.investing.com/rss/news_14.rss", "indicator"),
         # FOMC 성명·연준 의장 연설의 1차 출처. 매체보다 먼저 뜬다.
-        ("연준 보도자료", "https://www.federalreserve.gov/feeds/press_all.xml", "미국"),
+        ("Federal Reserve Press", "https://www.federalreserve.gov/feeds/press_all.xml", "US"),
     ])
 
     # RSS 소스: (이름, URL, 기본 분류 힌트) — 2026-08 기준 수신 확인된 피드만 등록
     rss_sources: list = field(default_factory=lambda: [
         # ── 사용자가 지정한 국가별 매체 (2026-08-17 피드 수신 검증 완료) ──
         # 한국
-        ("ZDNet Korea", "https://zdnet.co.kr/feed", "한국"),
+        ("ZDNet Korea", "https://zdnet.co.kr/feed", "Korea"),
         # 미국
-        ("DL News", "https://dlnews.com/arc/outboundfeeds/rss/", "미국"),
+        ("DL News", "https://dlnews.com/arc/outboundfeeds/rss/", "US"),
         # UAE
         ("Arabian Business", "https://arabianbusiness.com/feed", "UAE"),
         ("FinTech News ME", "https://fintechnews.ae/feed", "UAE"),
         ("Economy Middle East", "https://economymiddleeast.com/feed", "UAE"),
         ("Gulf News", "https://gulfnews.com/feed", "UAE"),
         # 싱가포르
-        ("FinTech News SG", "https://fintechnews.sg/feed", "싱가포르"),
-        ("Tech in Asia", "https://techinasia.com/feed", "싱가포르"),
+        ("FinTech News SG", "https://fintechnews.sg/feed", "Singapore"),
+        ("Tech in Asia", "https://techinasia.com/feed", "Singapore"),
         # 베트남
-        ("Vietnam News", "https://vietnamnews.vn/rss/economy.rss", "베트남"),
-        ("VnExpress", "https://vnexpress.net/rss/kinh-doanh.rss", "베트남"),
+        ("Vietnam News", "https://vietnamnews.vn/rss/economy.rss", "Vietnam"),
+        ("VnExpress", "https://vnexpress.net/rss/kinh-doanh.rss", "Vietnam"),
         # 중국
-        ("PANews", "https://panewslab.com/rss.xml", "중국"),
-        ("ChainCatcher", "https://chaincatcher.com/rss.xml", "중국"),
+        ("PANews", "https://panewslab.com/rss.xml", "China"),
+        ("ChainCatcher", "https://chaincatcher.com/rss.xml", "China"),
         # 홍콩
-        ("MetaEra", "https://metaera.hk/rss.xml", "홍콩"),
+        ("MetaEra", "https://metaera.hk/rss.xml", "Hong Kong"),
         # 일본
-        ("NADA NEWS", "https://coindeskjapan.com/feed", "일본"),
-        ("CoinChoice", "https://coinchoice.net/feed", "일본"),
+        ("NADA NEWS", "https://coindeskjapan.com/feed", "Japan"),
+        ("CoinChoice", "https://coinchoice.net/feed", "Japan"),
 
         # 크립토 매체의 규제 섹션 (실제로 규제만 걸러 나오는 것만 등록)
-        ("CryptoSlate 규제", "https://cryptoslate.com/regulation/feed/", "해외/규제"),
-        ("CryptoBriefing 규제", "https://cryptobriefing.com/category/regulation/feed/", "해외/규제"),
-        ("Blockworks 정책", "https://blockworks.co/feed/category/policy", "해외/규제"),
+        ("CryptoSlate Regulation", "https://cryptoslate.com/regulation/feed/", "Global/regulation"),
+        ("CryptoBriefing Regulation", "https://cryptobriefing.com/category/regulation/feed/", "Global/regulation"),
+        ("Blockworks Policy", "https://blockworks.co/feed/category/policy", "Global/regulation"),
         # 국내
-        ("블록미디어", "https://www.blockmedia.co.kr/feed", "국내"),
-        ("토큰포스트", "https://www.tokenpost.kr/rss", "국내"),
-        ("블록체인투데이", "https://www.blockchaintoday.co.kr/rss/allArticle.xml", "국내"),
-        ("금융위원회 보도자료", "http://www.fsc.go.kr/about/fsc_bbs_rss/?fid=0111", "국내"),
+        ("Blockmedia", "https://www.blockmedia.co.kr/feed", "Korea"),
+        ("TokenPost", "https://www.tokenpost.kr/rss", "Korea"),
+        ("Blockchain Today", "https://www.blockchaintoday.co.kr/rss/allArticle.xml", "Korea"),
+        ("FSC Press", "http://www.fsc.go.kr/about/fsc_bbs_rss/?fid=0111", "Korea"),
         # ("블록미디어 정책", ".../feed?cat=policy") 제거 (2026-08-28).
         # cat=policy 필터가 먹지 않아 일반 피드와 **완전히 동일한 10건**을 돌려준다.
         # 소스 이름만 달라 중복제거 키가 갈리는 바람에 같은 기사가 두 번 발행됐다.
         # 일본 — 현지 매체라야 금융청(FSA) 움직임이 제때 잡힌다
-        ("CoinPost(일본)", "https://coinpost.jp/?feed=rss2", "일본"),
-        ("あたらしい経済(일본)", "https://www.neweconomy.jp/feed", "일본"),
+        ("CoinPost (Japan)", "https://coinpost.jp/?feed=rss2", "Japan"),
+        ("Atarashii Keizai (Japan)", "https://www.neweconomy.jp/feed", "Japan"),
         # 홍콩·아시아
-        ("Forkast(아시아)", "https://forkast.news/feed/", "아시아"),
-        ("SCMP(홍콩)", "https://www.scmp.com/rss/36/feed", "홍콩"),
+        ("Forkast (Asia)", "https://forkast.news/feed/", "Asia"),
+        ("SCMP (Hong Kong)", "https://www.scmp.com/rss/36/feed", "Hong Kong"),
         # 싱가포르 — MAS·금융권 소식
-        ("Business Times(싱가포르)", "https://www.businesstimes.com.sg/rss/banking-finance", "싱가포르"),
-        ("Straits Times(싱가포르)", "https://www.straitstimes.com/news/business/rss.xml", "싱가포르"),
+        ("Business Times (Singapore)", "https://www.businesstimes.com.sg/rss/banking-finance", "Singapore"),
+        ("Straits Times (Singapore)", "https://www.straitstimes.com/news/business/rss.xml", "Singapore"),
         # 미국 규제기관 원문
-        ("CFTC 보도자료", "https://www.cftc.gov/RSS/RSSGP/rssgp.xml", "미국"),
-        ("연준 보도자료", "https://www.federalreserve.gov/feeds/press_all.xml", "미국"),
+        ("CFTC Press", "https://www.cftc.gov/RSS/RSSGP/rssgp.xml", "US"),
+        ("Federal Reserve Press", "https://www.federalreserve.gov/feeds/press_all.xml", "US"),
         # 해외
         # 로이터는 2020년 자체 RSS 를 폐지했다. 구글뉴스 검색 피드로 우회한다.
-        ("로이터(크립토)",
+        ("Reuters (Crypto)",
          "https://news.google.com/rss/search?q=site%3Areuters.com%20crypto%20OR%20bitcoin%20OR%20cryptocurrency&hl=en-US&gl=US&ceid=US%3Aen",
-         "해외"),
-        ("로이터(규제)",
+         "Global"),
+        ("Reuters (Regulation)",
          "https://news.google.com/rss/search?q=site%3Areuters.com%20crypto%20regulation%20OR%20SEC%20OR%20stablecoin&hl=en-US&gl=US&ceid=US%3Aen",
-         "해외"),
-        ("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/", "해외"),
-        ("Bitcoin.com", "https://news.bitcoin.com/feed/", "해외"),
-        ("CryptoSlate", "https://cryptoslate.com/feed/", "해외"),
-        ("Cointelegraph", "https://cointelegraph.com/rss", "해외"),
-        ("Cointelegraph 규제", "https://cointelegraph.com/rss/tag/regulation", "해외"),
-        ("The Block", "https://www.theblock.co/rss.xml", "해외"),
-        ("Decrypt", "https://decrypt.co/feed", "해외"),
-        ("The Defiant", "https://thedefiant.io/api/feed", "해외"),
-        ("Protos", "https://protos.com/feed/", "해외"),
-        ("SEC 보도자료", "https://www.sec.gov/news/pressreleases.rss", "해외"),
+         "Global"),
+        ("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/", "Global"),
+        ("Bitcoin.com", "https://news.bitcoin.com/feed/", "Global"),
+        ("CryptoSlate", "https://cryptoslate.com/feed/", "Global"),
+        ("Cointelegraph", "https://cointelegraph.com/rss", "Global"),
+        ("Cointelegraph Regulation", "https://cointelegraph.com/rss/tag/regulation", "Global"),
+        ("The Block", "https://www.theblock.co/rss.xml", "Global"),
+        ("Decrypt", "https://decrypt.co/feed", "Global"),
+        ("The Defiant", "https://thedefiant.io/api/feed", "Global"),
+        ("Protos", "https://protos.com/feed/", "Global"),
+        ("SEC Press", "https://www.sec.gov/news/pressreleases.rss", "Global"),
     ])
 
 

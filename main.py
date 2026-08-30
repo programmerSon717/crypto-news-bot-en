@@ -76,7 +76,7 @@ def normalize_category(cat: str | None) -> str:
     import topics as _topics
 
     if not cat:
-        return "이슈"
+        return "Main Issue"
     if cat in _topics.CATEGORIES:
         return cat
     lowered = cat.strip().lower()
@@ -87,21 +87,21 @@ def normalize_category(cat: str | None) -> str:
         "미국정책": "US Policy", "일본정책": "Japan Policy",
         "홍콩정책": "Hong Kong Policy", "싱가포르정책": "Singapore Policy",
         "싱가폴정책": "Singapore Policy", "uae정책": "UAE Policy",
-        "베트남정책": "Vietnam Policy", "국내": "국내정책", "해외": "해외정책",
-        "한국금리": "Korea Rates", "미국금리": "US Rates",
+        "베트남정책": "Vietnam Policy", "Korea": "Korea Policy", "Global": "Global Policy",
+        "한국금리": "Korea Macro", "미국금리": "US Macro",
         "한국증시": "Korea Equities", "미국증시": "US Equities",
-        "korea rate": "Korea Rates", "us rate": "US Rates",
+        "korea rate": "Korea Macro", "us rate": "US Macro",
         "korea equity": "Korea Equities", "us equity": "US Equities",
         "global macro": "Global Macro", "글로벌거시": "Global Macro",
-        "중국": "China", "china": "China", "china policy": "China",
+        "China": "China", "china": "China", "china policy": "China",
         # 모델이 띄어쓰기를 넣거나 영어로 쓰는 일이 있다
-        "거래소 이슈": "거래소이슈", "거래소": "거래소이슈",
-        "exchange": "거래소이슈", "exchange issue": "거래소이슈",
+        "거래소 이슈": "Exchange Issue", "거래소": "Exchange Issue",
+        "exchange": "Exchange Issue", "exchange issue": "Exchange Issue",
     }
     if lowered in aliases:
         return aliases[lowered]
     print(f"[분류] 알 수 없는 카테고리 '{cat}' → 이슈로 처리")
-    return "이슈"
+    return "Main Issue"
 
 
 # 이보다 오래된 글은 '실시간'이 아니라고 보고 게시 시각을 함께 표기한다.
@@ -152,15 +152,15 @@ def age_limit_hours(item: NewsItem) -> int:
     남아 나라별 정책 탭이 통째로 빈다. 게시 시각은 본문에 항상 표기되므로
     독자는 오래된 기사임을 알 수 있고, 중복 판정이 이미 나간 사건의 반복을 막는다.
     """
-    if (item.region_hint or "").endswith("/규제"):
+    if (item.region_hint or "").endswith("/regulation"):
         return settings.regulation_max_age_hours
     return settings.max_age_hours
 
 
 # 정책·규제 탭. 여기는 문턱을 낮춰야 나라별 탭이 채워진다.
-POLICY_TABS = {"국내정책", "US Policy", "Japan Policy", "Hong Kong Policy",
+POLICY_TABS = {"Korea Policy", "US Policy", "Japan Policy", "Hong Kong Policy",
                "Singapore Policy", "UAE Policy", "Vietnam Policy",
-               "해외정책", "China"}
+               "Global Policy", "China"}
 
 
 def importance_floor(category: str) -> int:
@@ -199,7 +199,7 @@ def summarize_priority(item: NewsItem) -> tuple:
     hint = item.region_hint or ""
     if "리서치" in hint:
         tier = 2
-    elif "/규제" in hint or "정책" in hint:
+    elif "/regulation" in hint or "정책" in hint:
         tier = 0
     else:
         tier = 1
@@ -434,7 +434,7 @@ async def process_items(client: httpx.AsyncClient, items: list[NewsItem], warm: 
         #    문턱을 걸면 탭이 통째로 비어버린다. 이 탭은 '굵직한 뉴스'가 아니라
         #    '거래소에서 일어난 일'을 모으는 곳이라 기준이 다르다.
         cat_raw = normalize_category(data.get("category"))
-        exempt = item.force_category or cat_raw == "거래소이슈"
+        exempt = item.force_category or cat_raw == "Exchange Issue"
         floor = importance_floor(cat_raw)
         if not exempt and data.get("importance", 0) < floor:
             print(f"[skip] 중요도 {data.get('importance')}(문턱 {floor}): {item.title[:52]}")

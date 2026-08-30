@@ -88,7 +88,7 @@ async def fetch(client: httpx.AsyncClient) -> list[NewsItem]:
             title=f"[연준 연설] {title}",
             url=link,
             body=body[:BODY_LIMIT],
-            region_hint="지표/긴급:연준연설",
+            region_hint="indicator/긴급:연준연설",
             published_at=ts,
         ))
     if items:

@@ -132,25 +132,25 @@ def render(data: dict, url: str) -> str:
 
 
 # 내부 소스 이름에는 수집 경로가 섞여 있다.
-#   "규제:미국(Bloomberg.com)"  ← 구글뉴스 규제 검색으로 들어온 것
-#   "CoinPost(일본)" "SCMP(홍콩)"  ← 지역 표시
-#   "CryptoSlate 규제" "로이터(크립토)"  ← 같은 매체의 어느 피드인지
+#   "reg:US(Bloomberg.com)"  ← 구글뉴스 규제 검색으로 들어온 것
+#   "CoinPost (Japan)" "SCMP (Hong Kong)"  ← 지역 표시
+#   "CryptoSlate Regulation" "Reuters (Crypto)"  ← 같은 매체의 어느 피드인지
 # 독자에게는 매체 이름만 보이는 게 맞으므로 이런 꼬리표를 떼어낸다.
-_GNEWS = re.compile(r"^규제:[^(]*\((.+)\)$")
+_GNEWS = re.compile(r"^reg:[^(]*\((.+)\)$")
 _TAIL_PAREN = re.compile(r"\s*\((.+)\)\s*$")
-_TAIL_WORD = re.compile(r"\s+(규제|정책|크립토)$")
-_DROPPABLE = {"일본", "홍콩", "아시아", "싱가포르", "베트남", "중국", "한국",
-              "미국", "영국", "UAE", "규제", "정책", "크립토"}
+_TAIL_WORD = re.compile(r"\s+(Regulation|Policy|Crypto|Notice|Press)$", re.I)
+_DROPPABLE = {"Japan", "Hong Kong", "Asia", "Singapore", "Vietnam", "China",
+              "Korea", "US", "UK", "UAE", "Regulation", "Policy", "Crypto"}
 
 
 # 해시태그에서 빼는 것들.
 #   - 내부 분류 키(US Rates → #US_Rates). 실제로 발행돼서 걸러내게 됐다.
 #   - 막연한 #국내/#해외. 탭 이름 태그가 그 역할을 더 정확히 하므로 겹치면 헷갈린다.
-_VAGUE_TAGS = {"국내", "해외", "국내외"}
+_VAGUE_TAGS = {"Korea", "Global", "Domestic", "Overseas", "News", "Crypto"}
 
 
 def _tab_tag(category: str) -> str:
-    """분류 키 → 탭 이름 해시태그. 'US Rates' → '#미국매크로'
+    """분류 키 → 탭 이름 해시태그. 'US Macro' → '#USMacro'
 
     이모지·공백을 떼고 글자만 남긴다. **코드가 직접 만든다** — 모델에 맡기면
     탭과 다른 값을 뱉어 태그와 실제 탭이 따로 논다.
@@ -158,7 +158,7 @@ def _tab_tag(category: str) -> str:
     import topics as _topics
     entry = _topics.CATEGORIES.get(category)
     name = entry[0] if entry else category
-    clean = re.sub(r"[^0-9A-Za-z가-힣]", "", name)
+    clean = re.sub(r"[^0-9A-Za-z]", "", name)
     return f"#{clean}" if clean else ""
 
 

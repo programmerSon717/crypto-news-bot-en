@@ -11,7 +11,6 @@ import os
 
 import httpx
 
-import i18n
 from config import settings
 
 API = f"https://api.telegram.org/bot{settings.telegram_bot_token}"
@@ -30,33 +29,31 @@ API = f"https://api.telegram.org/bot{settings.telegram_bot_token}"
 # 주요 관심국은 나라별 탭으로 분리하고, 그 외 국가·국제기구는 '해외정책'으로 모은다.
 # 키(내부 식별자)는 모델이 분류값으로 뱉는 문자열이므로 탭 이름과 동일하게 유지한다.
 CATEGORIES = {
-    "국내정책": ("🇰🇷한국정책", 0x6FB9F0),
-    "US Policy": ("🇺🇸미국정책", 0xFB6F5F),
-    "Japan Policy": ("🇯🇵일본정책", 0xFF93B2),
-    "Hong Kong Policy": ("🇭🇰홍콩정책", 0xFB6F5F),
-    "Singapore Policy": ("🇸🇬싱가폴정책", 0x8EEE98),
-    "UAE Policy": ("🇦🇪UAE정책", 0x8EEE98),
-    "Vietnam Policy": ("🇻🇳베트남정책", 0xFFD67E),
-    "해외정책": ("🌎해외정책", 0xFFD67E),
+    "Korea Policy": ("🇰🇷Korea Policy", 0x6FB9F0),
+    "US Policy": ("🇺🇸US Policy", 0xFB6F5F),
+    "Japan Policy": ("🇯🇵Japan Policy", 0xFF93B2),
+    "Hong Kong Policy": ("🇭🇰Hong Kong Policy", 0xFB6F5F),
+    "Singapore Policy": ("🇸🇬Singapore Policy", 0x8EEE98),
+    "UAE Policy": ("🇦🇪UAE Policy", 0x8EEE98),
+    "Vietnam Policy": ("🇻🇳Vietnam Policy", 0xFFD67E),
+    "Global Policy": ("🌎Global Policy", 0xFFD67E),
     # 금리·증시는 정책과 시장 사이에 걸쳐 있어 '이슈'에 묻히기 쉬우므로 따로 뺀다.
-    "Korea Rates": ("🇰🇷한국매크로", 0x6FB9F0),
-    "US Rates": ("🇺🇸미국매크로", 0xFB6F5F),
-    "Korea Equities": ("🇰🇷한국증시", 0x6FB9F0),
-    "US Equities": ("🇺🇸미국증시", 0xFB6F5F),
+    "Korea Macro": ("🇰🇷Korea Macro", 0x6FB9F0),
+    "US Macro": ("🇺🇸US Macro", 0xFB6F5F),
+    "Korea Equities": ("🇰🇷Korea Equities", 0x6FB9F0),
+    "US Equities": ("🇺🇸US Equities", 0xFB6F5F),
     # 중국은 물량이 많아 따로 뺀다(인민은행·위안화·규제·상하이/항셍 전부).
-    "China": ("🇨🇳중국정책", 0xFB6F5F),
+    "China": ("🇨🇳China Policy", 0xFB6F5F),
     # 미국·한국·중국이 아닌 나라의 거시지표·통화정책(일본은행, ECB 등).
     # 이 탭이 없으면 모델이 갈 곳 없는 뉴스를 US Rates 에 억지로 밀어넣는다.
-    "Global Macro": ("🌐글로벌매크로", 0xCB86DB),
+    "Global Macro": ("🌐Global Macro", 0xCB86DB),
     # 거래소 관련은 성격이 뚜렷하고 물량이 꾸준해 따로 뺀다.
     # 상장·폐지·유의종목·입출금 중단·수수료 정책·거래소 해킹·거래소 규제 조치.
-    "거래소이슈": ("🏦거래소이슈", 0xFFD67E),
-    "이슈": ("🚨주요이슈", 0xCB86DB),
+    "Exchange Issue": ("🏦Exchange Issue", 0xFFD67E),
+    "Main Issue": ("🚨Main Issue", 0xCB86DB),
 }
 
-# 위 표시 이름은 한국어판에서 물려받은 것이라 i18n 의 영문 이름표로 덮는다.
-# 키·색상·순서는 그대로 둔다 — 라우팅과 분류는 키로만 하므로 이름만 바뀐다.
-CATEGORIES = {k: (i18n.TAB_NAMES.get(k, n), c) for k, (n, c) in CATEGORIES.items()}
+
 
 
 def _load() -> dict:

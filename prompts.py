@@ -25,7 +25,7 @@ Process the given article into the channel's format and reply with JSON only. Ne
   "relevant": true/false,        // false if unrelated to crypto / blockchain / digital-asset regulation
   "importance": 1-5,             // 5 = market-wide impact (major regulation, major hack), 3 = industry interest, 1 = minor notice
   "region": "domestic" | "global",
-  "category": "국내정책" | "US Policy" | "Japan Policy" | "Hong Kong Policy" | "Singapore Policy" | "UAE Policy" | "Vietnam Policy" | "해외정책" | "Korea Rates" | "US Rates" | "Korea Equities" | "US Equities" | "China" | "Global Macro" | "거래소이슈" | "이슈",   // See "Category rules". Exactly one of these 16, character for character.
+  "category": "Korea Policy" | "US Policy" | "Japan Policy" | "Hong Kong Policy" | "Singapore Policy" | "UAE Policy" | "Vietnam Policy" | "Global Policy" | "Korea Macro" | "US Macro" | "Korea Equities" | "US Equities" | "China" | "Global Macro" | "Exchange Issue" | "Main Issue",   // See "Category rules". Exactly one of these 16, character for character.
   "headline": "one-line headline, no emoji",
   "header_emoji": "a single emoji to lead the headline (regulation=📕, exchange=🏦 or ◈, hack=🚨, token=🪙, flows=💸)",
   "lede": "1-2 sentence situation summary that follows ☑️",
@@ -51,7 +51,7 @@ Process the given article into the channel's format and reply with JSON only. Ne
 - **Korea Equities**: Korean equities. KOSPI, KOSDAQ, circuit breakers, Korean listed companies' shares and earnings (Samsung Electronics, SK Hynix), foreign and institutional flows, short-selling rules.
 - **US Equities**: US equities. S&P 500, Nasdaq, Dow, US listed companies' shares and earnings, US ETFs, tokenised equities.
 - **China**: anything China — PBOC and the yuan, Chinese regulation, the digital yuan (CBDC), Shanghai and Hang Seng indices, Chinese macro prints (retail sales, industrial output, PMI).
-- **거래소이슈**: anything where an exchange is the actor or the venue.
+- **Exchange Issue**: anything where an exchange is the actor or the venue.
   Listings, delistings, "caution" designations, deposit and withdrawal suspensions and resumptions,
   new markets, fee policy, promotions, scheduled maintenance, outages,
   exchange hacks and asset losses, and enforcement aimed at an exchange.
@@ -59,14 +59,14 @@ Process the given article into the channel's format and reply with JSON only. Ne
   But if a regulator is the actor and the exchange is merely the target, the country policy tab wins
   (e.g. Hong Kong's SFC naming unlicensed firms → Hong Kong Policy).
 - **Global Macro**: macro prints, monetary policy and equity markets for countries **other than the US, Korea and China**.
-  **Nothing about the US belongs here.** The Fed, the FOMC and US prints are all `US Rates`.
-  Nothing about Korea either — that goes to `Korea Rates` / `Korea Equities`.
+  **Nothing about the US belongs here.** The Fed, the FOMC and US prints are all `US Macro`.
+  Nothing about Korea either — that goes to `Korea Macro` / `Korea Equities`.
   e.g. Bank of Japan rate decisions, the yen carry trade, the ECB, Nikkei / Hang Seng / Shanghai indices, emerging-market currency stress.
 
 **Hard rule — do not get the country wrong**
-- Use `US Rates` / `US Equities` only for **US** prints, institutions and markets.
+- Use `US Macro` / `US Equities` only for **US** prints, institutions and markets.
   A BOJ hike → Global Macro. Chinese retail sales → Global Macro. The ECB → Global Macro.
-- Use `Korea Rates` / `Korea Equities` only for **Korean** prints, institutions and markets.
+- Use `Korea Macro` / `Korea Equities` only for **Korean** prints, institutions and markets.
 - Even when a foreign print is described as "moving US markets", classify by **the country that published it**.
 - When the country is genuinely unclear, send it to Global Macro. Do not push it into a US tab.
 
@@ -76,24 +76,24 @@ How to decide
 - Even with some crypto in the mix, **if the substance is rates or equities, classify it here.**
   e.g. "Bitcoin outlook as the yen strengthens and dollar liquidity expands" → liquidity and rates are the substance, so US Rates.
 - Conversely, **if crypto is the substance, it does not belong here.**
-  e.g. "Spot bitcoin ETF inflows" → 이슈. "Tokenised equities listed" → 이슈 (an exchange product).
+  e.g. "Spot bitcoin ETF inflows" → Main Issue. "Tokenised equities listed" → Main Issue (an exchange product).
 
 **Step 2 — if it is not rates or equities, is it policy or a story?**
 A government, regulator, legislature or international body as the actor means policy. A private company or the market as the actor means a story.
 
-- **이슈**: everything that is neither policy nor rates/equities.
+- **Main Issue**: everything that is neither policy nor rates/equities.
   e.g. hacks and security incidents, project and token news, on-chain metrics, corporate earnings and funding rounds, new services.
 
 **Step 3 — if policy, whose policy?** (by the country the regulator belongs to, not the nationality of a company in the story)
 
-- **국내정책**: Korea. FSC, FIU, FSS, the Ministry of Economy and Finance, the Bank of Korea, National Assembly bills, the Virtual Asset User Protection Act, exchange rules, won-market and real-name account policy, taxation.
+- **Korea Policy**: Korea. FSC, FIU, FSS, the Ministry of Economy and Finance, the Bank of Korea, National Assembly bills, the Virtual Asset User Protection Act, exchange rules, won-market and real-name account policy, taxation.
 - **US Policy**: the United States. SEC, CFTC, the Fed, Treasury, OCC, FinCEN, NYDFS, congressional bills (CLARITY, GENIUS), spot ETF approvals and denials, state-level rules, executive orders.
 - **Japan Policy**: Japan. The FSA, amendments to the Payment Services Act and FIEA, JVCEA, crypto taxation and separate-taxation debate, stablecoin licensing.
 - **Hong Kong Policy**: Hong Kong. SFC, HKMA, the VASP licensing regime, the stablecoin ordinance, spot ETFs, the scope of retail access.
 - **Singapore Policy**: Singapore. MAS, the Payment Services Act, the DTSP regime, the stablecoin framework, retail marketing restrictions.
 - **UAE Policy**: the United Arab Emirates. VARA (Dubai), the SCA, ADGM and DIFC, Dubai and Abu Dhabi licensing, approvals for offshore operators.
 - **Vietnam Policy**: Vietnam. The State Bank of Vietnam, the Digital Technology Industry Law, the pilot digital-asset exchange, the taxation and legalisation roadmap.
-- **해외정책**: any policy outside those seven jurisdictions. e.g. EU MiCA, the UK FCA, India, Brazil, and IMF / BIS / FATF recommendations.
+- **Global Policy**: any policy outside those seven jurisdictions. e.g. EU MiCA, the UK FCA, India, Brazil, and IMF / BIS / FATF recommendations.
 
 **Watch out**
 - Use a country tab only when **that country's regulator is the actor**. "A US firm enters Japan" is Japan Policy if the Japanese FSA is the one licensing it.
@@ -134,15 +134,15 @@ do not make it a different event.
 - `update_note` is written only when there is an overlapping post. Otherwise it is an empty string.
 
 ## Using the region hint
-- A hint ending in `/규제` means the article came from the **regulation feeds**.
-  Consider the policy tabs first (국내정책 / US Policy / Japan Policy / … / China / 해외정책).
+- A hint ending in `/regulation` means the article came from the **regulation feeds**.
+  Consider the policy tabs first (Korea Policy / US Policy / Japan Policy / … / China / Global Policy).
 - A country name in the hint suggests that country's regulation. But **if the body is about a different country, follow the body** — the hint is only a pointer.
-- A hint starting with `지표:` or carrying `긴급:` means this is a **macro print or policy event that was deliberately fetched** (CPI, PCE, PPI, payrolls, PMI, GDP, FOMC, Jackson Hole).
+- A hint starting with `indicator:` or carrying `urgent:` means this is a **macro print or policy event that was deliberately fetched** (CPI, PCE, PPI, payrolls, PMI, GDP, FOMC, Jackson Hole).
   For these, set `relevant: true` **even when crypto is never mentioned**.
   Rates and liquidity are the main drivers of the crypto market, which is why the channel pulls them in.
-  Set the category to **`US Rates` for US events and `Global Macro` for everything else**.
+  Set the category to **`US Macro` for US events and `Global Macro` for everything else**.
   The point of these posts is to **carry the printed figures, the change from the prior period and the gap to consensus straight into the bullets**. Do not strain to tie them to crypto; report the print.
-- If something came from the regulation feeds but is really company or market news, send it to `이슈` as normal.
+- If something came from the regulation feeds but is really company or market news, send it to `Main Issue` as normal.
 
 ## Sourcing confidence — exclusives and single-source reports
 - If the piece looks like an **exclusive or an unconfirmed report**, add `#Unconfirmed` to the hashtags. Signs of it:
@@ -256,7 +256,7 @@ Write it as the source has it, **even when it contradicts what you believe you k
 {
   "relevant": true/false,        // false if unrelated to crypto / blockchain / digital assets
   "importance": 1-5,             // 5 = market-wide impact, 3 = industry interest, 1 = chatter or promotion
-  "category": "국내정책" | "US Policy" | "Japan Policy" | "Hong Kong Policy" | "Singapore Policy" | "UAE Policy" | "Vietnam Policy" | "해외정책" | "Korea Rates" | "US Rates" | "Korea Equities" | "US Equities" | "China" | "Global Macro" | "거래소이슈" | "이슈",
+  "category": "Korea Policy" | "US Policy" | "Japan Policy" | "Hong Kong Policy" | "Singapore Policy" | "UAE Policy" | "Vietnam Policy" | "Global Policy" | "Korea Macro" | "US Macro" | "Korea Equities" | "US Equities" | "China" | "Global Macro" | "Exchange Issue" | "Main Issue",
   "headline": "one-line headline, no emoji",
   "header_emoji": "a single leading emoji (regulation=📕, exchange=🏦, hack=🚨, token=🪙, flows=💸)",
   "lede": "1-2 sentence factual summary after ☑️. Name who posted and what they did.",
@@ -300,8 +300,8 @@ naming the source without a link beats attaching a wrong link.
    Do not get the country wrong: Japanese, Chinese or European prints never go in US Rates.
    When they overlap: "where rates go next" is Rates, "how the index moved" is Equities.
    When countries overlap: go by the **market the story is about**.
-2) Not rates or equities, and a regulator is the actor → that country's policy tab (국내정책 / US Policy / … / 해외정책)
-3) Everything else — private, market, incident → 이슈 (spot ETF flows, tokenised equity listings, hacks, exchange listings)"""
+2) Not rates or equities, and a regulator is the actor → that country's policy tab (Korea Policy / US Policy / … / Global Policy)
+3) Everything else — private, market, incident → Main Issue (spot ETF flows, tokenised equity listings, hacks, exchange listings)"""
 
 
 # ── 중요 정책 이벤트 심층 요약 ──
@@ -383,9 +383,9 @@ Reply with JSON only. Never include any text outside the JSON, and never use mar
 **Answer for every number in the input, without omission.**
 
 ## Categories (internal keys — output them exactly, do not translate)
-"국내정책" | "US Policy" | "Japan Policy" | "Hong Kong Policy" | "Singapore Policy" |
-"UAE Policy" | "Vietnam Policy" | "해외정책" | "Korea Rates" | "US Rates" |
-"Korea Equities" | "US Equities" | "China" | "Global Macro" | "거래소이슈" | "이슈"
+"Korea Policy" | "US Policy" | "Japan Policy" | "Hong Kong Policy" | "Singapore Policy" |
+"UAE Policy" | "Vietnam Policy" | "Global Policy" | "Korea Macro" | "US Macro" |
+"Korea Equities" | "US Equities" | "China" | "Global Macro" | "Exchange Issue" | "Main Issue"
 
 ## Order of judgement
 1) **Rates and equities come first.** Even with crypto in the mix, if the substance is rates or equities, send it here.
@@ -399,9 +399,9 @@ Reply with JSON only. Never include any text outside the JSON, and never use mar
    When they overlap: "where rates go next" is Rates, "how the index moved" is Equities.
    When countries overlap: go by the **market the story is about**.
 2) Not rates or equities, and a regulator is the actor → that country's policy tab
-3) Everything else → 이슈
-   Note: spot ETF flows and tokenised equity listings are **이슈**.
-   Crypto **exchange** listings, hacks and notices go to **거래소이슈**.
+3) Everything else → Main Issue
+   Note: spot ETF flows and tokenised equity listings are **Main Issue**.
+   Crypto **exchange** listings, hacks and notices go to **Exchange Issue**.
    The equities tabs are for actual stock-market news only.
 
 ## Important
@@ -565,7 +565,7 @@ This is a translation task, not a rewrite. The Korean post was already fact-chec
 - Korean market terms: 코스피 → KOSPI, 코스닥 → KOSDAQ, 금융위 → the FSC, 특금법 → the Act on Reporting and Use of Specified Financial Transaction Information, 가상자산이용자보호법 → the Virtual Asset User Protection Act.
 - **No Korean, Chinese or Japanese characters may remain**, except a local-language name inside brackets after the English one.
 - A proper noun written in Chinese or Japanese characters (a token, a company) is **romanised by the reading of its own language**, with the original in brackets on first mention: 牛来 → Niulai (牛来), not an invented reading. If you are unsure of the reading, keep the original characters in brackets and describe it ("a BSC meme coin") rather than guessing.
-- **"국내" means Korea, not "domestic".** The English reader is not in Korea. 국내 이용자 → Korean users; 국내 증시 → the Korean stock market; 국내 거래소 → Korean exchanges. The same goes for 해외 → outside Korea / international, depending on what it means in context.
+- **"Korea" means Korea, not "domestic".** The English reader is not in Korea. 국내 이용자 → Korean users; 국내 증시 → the Korean stock market; 국내 거래소 → Korean exchanges. The same goes for 해외 → outside Korea / international, depending on what it means in context.
 
 ## Hashtags
 Translate the topical tags. **Drop any tag that names a channel section**, whether or not it came first —

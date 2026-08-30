@@ -226,7 +226,7 @@ class Store:
                 (start, end),
             ).fetchall()
         return [
-            {"category": r[0] or "이슈", "headline": r[1], "lede": r[2] or "",
+            {"category": r[0] or "Main Issue", "headline": r[1], "lede": r[2] or "",
              "source_url": r[3] or "", "message_id": r[4], "published_at": r[5]}
             for r in rows
         ]

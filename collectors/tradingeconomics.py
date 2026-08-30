@@ -104,7 +104,7 @@ async def fetch(client: httpx.AsyncClient, size: int = 60) -> list[NewsItem]:
                 title=f"[{country}] {title}" if country else title,
                 url=url,
                 body=(row.get("description") or "")[:2000],
-                region_hint=f"지표:{label}/{country}",
+                region_hint=f"indicator:{label}/{country}",
                 published_at=_epoch(row.get("date")),
             )
         )

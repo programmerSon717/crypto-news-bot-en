@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class NewsItem:
-    source: str          # 수집처 이름 (예: "Binance 공지", "블록미디어")
+    source: str          # 수집처 이름 (예: "Binance Notice", "Blockmedia")
     unique_id: str       # 소스 내 고유값 (URL, article id 등) — 중복제거 키
     title: str
     url: str

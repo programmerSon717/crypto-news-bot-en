@@ -53,7 +53,7 @@ async def run(client: httpx.AsyncClient, store, only: str | None = None,
 
     by_cat: dict[str, list] = {}
     for r in rows:
-        by_cat.setdefault(r["category"] or "이슈", []).append(r)
+        by_cat.setdefault(r["category"] or "Main Issue", []).append(r)
 
     for category, group in by_cat.items():
         group.sort(key=_sort_key, reverse=NEWEST_ON_TOP)
