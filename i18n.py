@@ -8,8 +8,8 @@
 STRINGS = {
     "section_default": "Key points",
     "update": "Update",
-    "source_link": "Read the original",
-    "posted": "Published",
+    "source_link": "Original Article",
+    "posted": "Posted",
     "insight_context": "Context",
     "insight_impact": "Impact",
     "insight_watch": "What to watch",

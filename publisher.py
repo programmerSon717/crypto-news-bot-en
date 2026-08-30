@@ -138,6 +138,8 @@ def render(data: dict, url: str) -> str:
 # 독자에게는 매체 이름만 보이는 게 맞으므로 이런 꼬리표를 떼어낸다.
 _GNEWS = re.compile(r"^reg:[^(]*\((.+)\)$")
 _TAIL_PAREN = re.compile(r"\s*\((.+)\)\s*$")
+# 괄호 앞뒤 공백 유무와 무관하게, 안쪽이 바깥쪽 앞부분을 되풀이하면 통째로 버린다.
+# 실제로 "CoinDesk Regulation(CoinDesk)" 가 그대로 발행됐다.
 _TAIL_WORD = re.compile(r"\s+(Regulation|Policy|Crypto|Notice|Press)$", re.I)
 _DROPPABLE = {"Japan", "Hong Kong", "Asia", "Singapore", "Vietnam", "China",
               "Korea", "US", "UK", "UAE", "Regulation", "Policy", "Crypto"}
@@ -185,7 +187,12 @@ def _build_tags(data: dict) -> str:
             continue
         if not t.startswith("#"):
             t = "#" + t
-        body = t[1:].replace(" ", "")
+        # 태그에 공백이 있으면 텔레그램이 첫 낱말까지만 태그로 잡는다(#Abu Dhabi → #Abu).
+        # 글자만 남겨 하나의 태그로 만든다.
+        body = re.sub(r"[^0-9A-Za-z_]", "", t[1:])
+        if not body:
+            continue
+        t = "#" + body
         if body.lower() in banned or body in _VAGUE_TAGS:
             continue
         if t not in out:
@@ -228,8 +235,12 @@ def source_label(raw: str) -> str:
         norm_head = head.replace(" ", "").lower()
         norm_inner = re.sub(r"\.(com|net|org|kr|jp|co\.kr|news|pro|io|info)$", "",
                             inner.replace(" ", "").lower())
+        # 안쪽이 바깥쪽에 이미 들어 있으면(피드 종류만 덧붙은 형태) 안쪽을 택한다.
+        #   "CoinDesk Regulation(CoinDesk)" → CoinDesk
         if inner in _DROPPABLE or norm_inner == norm_head:
             s = head
+        elif norm_inner and norm_inner in norm_head:
+            s = inner
     s = _TAIL_WORD.sub("", s).strip()
     return OUTLETS.get(s, s)
 

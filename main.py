@@ -20,6 +20,7 @@ import os
 import sys
 import time
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import httpx
 
@@ -39,6 +40,9 @@ from summarizer import summarize, summarize_briefing, summarize_insight
 store = Store(settings.db_path)
 
 KST = timezone(timedelta(hours=9))
+# 발행문에 찍는 시각 기준. 크립토 시장의 기준 시계가 뉴욕이라 미 동부시간을 쓴다.
+# ZoneInfo 를 쓰면 서머타임이 자동으로 반영된다(EDT ↔ EST).
+ET = ZoneInfo("America/New_York")
 
 
 def _arg_value(flag: str) -> str | None:
@@ -139,13 +143,14 @@ def annotate_origin(data: dict, item: NewsItem):
     # 기사·문서의 발행 시각은 **항상** 표기한다(사용자 요청).
     # 실시간이든 백필이든 언제 나온 뉴스인지 알 수 있어야 한다.
     #
-    # 표기는 UTC 다. 한국어판은 KST 를 쓰지만 이 채널의 독자는 세계 각지에 있고,
-    # 한국 시간은 그들에게 아무 기준도 되지 못한다. UTC 는 어느 시간대에서든
-    # 환산이 되는 유일한 공통 기준이다.
+    # 표기는 **미 동부시간**이다(EDT/EST 는 계절에 따라 자동으로 바뀐다).
+    # 한국어판은 KST 를 쓰지만 이 채널 독자에게 한국 시간은 아무 기준이 못 된다.
+    # 크립토 시장의 기준 시계가 뉴욕이라 미 동부시간을 쓴다.
     if item.published_at is None:
         return
-    dt = datetime.fromtimestamp(item.published_at, timezone.utc)
-    data["_posted_label"] = dt.strftime("%Y-%m-%d %H:%M UTC")
+    dt = datetime.fromtimestamp(item.published_at, ET)
+    # "2026-08-30 7:17 PM EDT" — 날짜는 ISO, 시각은 12시간제
+    data["_posted_label"] = f"{dt:%Y-%m-%d} {dt:%I:%M %p}".replace(" 0", " ") + f" {dt:%Z}"
 
 
 def age_limit_hours(item: NewsItem) -> int:

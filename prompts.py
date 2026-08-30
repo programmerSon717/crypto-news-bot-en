@@ -159,6 +159,20 @@ do not make it a different event.
 - **Do not leave any Korean, Chinese or Japanese characters in the output.** Summarising a Chinese or Japanese article tends to leak source words. Translate the meaning: 鹰派 → **hawkish**, 鸽派 → **dovish**, 美联储 → **the Fed**, 加息 → **rate hike**, 降息 → **rate cut**, 稳定币 → **stablecoin**, 매파 → **hawkish**, 금융위 → **the FSC**.
   The only exception is a local-language name inside brackets after the English one.
 
+## Capitalisation — sentence case
+
+Headlines and section titles are written in **sentence case**, the way Reuters and Bloomberg write them:
+capitalise the first word and proper nouns only.
+
+  ✅ "Coinbase establishes international tokenisation hub in Abu Dhabi"
+  ❌ "Coinbase Establishes International Tokenisation Hub in Abu Dhabi"
+
+  ✅ "UK tax authority publishes crypto capital gains figures for the first time"
+  ✅ section title: "UK crypto tax snapshot"
+
+Tickers and acronyms keep their own casing: BTC, ETH, SEC, HMRC, FSC, KOSPI, ETF, RWA.
+Bullets are ordinary sentences and follow the same rule.
+
 ## Crypto relevance (judging `relevant`)
 
 What this channel covers is **crypto, tokenisation and blockchain**. That has to be the **subject** of the piece.
@@ -559,6 +573,8 @@ This is a translation task, not a rewrite. The Korean post was already fact-chec
 
 ## Voice
 - Plain news prose, dense, no hype. The same register as the Korean.
+- **Sentence case** for the headline and section title — capitalise the first word and proper nouns only,
+  the way Reuters and Bloomberg write them. Tickers and acronyms keep their casing (BTC, SEC, HMRC, KOSPI).
 - The 🐧 comment keeps its character: a short, level-headed observation with a light touch. Not a summary of the bullets.
 - No investment advice. "Worth watching" rather than "recommended".
 - Give institutions their English name, with the local acronym where it helps: Financial Services Commission (FSC), Bank of Korea (BOK), Financial Intelligence Unit (FIU).
