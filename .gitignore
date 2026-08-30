@@ -4,3 +4,4 @@ __pycache__/
 .env
 HANDOFF.local.md
 *.session
+.DS_Store
