@@ -207,7 +207,8 @@ def _build_tags(data: dict) -> str:
 OUTLETS = {
     "토큰포스트": "TokenPost", "블록미디어": "Blockmedia", "블록체인투데이": "Blockchain Today",
     "디센터": "Decenter", "코인데스크코리아": "CoinDesk Korea", "코인리더스": "Coinreaders",
-    "뉴스핌": "Newspim", "서울경제TV": "SEDaily TV", "서울경제": "SEDaily",
+    "뉴스핌": "Newspim", "Binance 공지": "Binance", "Upbit 공지": "Upbit",
+    "빗썸 공지": "Bithumb", "업비트 공지": "Upbit", "서울경제TV": "SEDaily TV", "서울경제": "SEDaily",
     "IT조선": "IT Chosun", "전자신문": "ET News", "머니투데이": "Money Today",
     "한국경제": "Korea Economic Daily", "매일경제": "Maeil Business",
     "연합뉴스": "Yonhap", "조선비즈": "ChosunBiz", "이데일리": "Edaily",

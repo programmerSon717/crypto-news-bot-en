@@ -25,9 +25,16 @@ def parse(text: str) -> dict | None:
         return None
     out: dict = {"bullets": [], "hashtags": []}
 
-    m = re.search(r"^(\S+)\s*<b>(.*?)</b>", text, re.M)
-    if m:
+    # 제목 줄은 "{이모지} <b>제목</b>" 이다. 다만 본문에는 같은 모양의 줄이 더 있다
+    #   🗣 <b>… 원문</b>  📁 <b>소제목</b>  📌 <b>배경</b>  🔁 <b>업데이트</b>
+    # 사진이 딸린 글은 제목이 캡션에 있어 제목 줄 자체가 없다. 그때 아래 줄을
+    # 제목으로 오인하면 이모지가 🗣 로 붙는다(실제로 그랬다).
+    _NOT_TITLE = ("🗣", "📁", "📌", "📈", "🔍", "🔁", "🕒", "📎")
+    for m in re.finditer(r"^(\S+)\s*<b>(.*?)</b>", text, re.M):
+        if m.group(1) in _NOT_TITLE:
+            continue
         out["header_emoji"], out["headline"] = m.group(1), _plain(m.group(2))
+        break
 
     m = re.search(r"^☑️\s*(.+?)$", text, re.M)
     if m:
@@ -64,12 +71,28 @@ def parse(text: str) -> dict | None:
     if m:
         out["hashtags"] = [t.lstrip("#") for t in _plain(m.group(1)).split()]
 
+    # 출처 매체명. 형식이 둘이다.
+    #   일반 기사   기사 원문</a> - 토큰포스트
+    #   퍼온 글     📎 출처: <a href="...">Optimism Governance</a>
+    m = re.search(r"기사 원문</a>\s*-\s*([^\n<]+)", text)
+    if m:
+        out["_outlet"] = _plain(m.group(1))
+    else:
+        m = re.search(r"📎\s*출처:\s*<a[^>]*>(.*?)</a>", text, re.S)
+        if m:
+            out["_outlet"] = _plain(m.group(1))
+
     return out
 
 
 def missing(d: dict) -> list[str]:
-    """필수 부품 중 빠진 것."""
-    need = ("headline", "lede", "comment")
+    """필수 부품 중 빠진 것.
+
+    headline 은 여기서 안 본다. 사진이 딸린 글은 제목이 캡션에 들어가 본문에
+    없기 때문이다(publisher 의 _headline_in_caption 경로). 이관 도구가 DB 의
+    headline 칼럼을 쓰므로 문제되지 않는다.
+    """
+    need = ("lede", "comment")
     out = [k for k in need if not d.get(k)]
     if not d.get("bullets"):
         out.append("bullets")
