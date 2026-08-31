@@ -39,8 +39,24 @@ CALL_TIMEOUT = 120
 #   quotaId = GenerateRequestsPerMinutePerProjectPerModel-FreeTier, quotaValue = 15
 # 그래서 스로틀도 모델별로 건다. 예전에는 전역 하나였는데, 모델이 7개로 늘어난 뒤로는
 # 그게 병목이 됐다 — 모델이 몇 개든 분당 12건에 묶여 대기 물량이 안 빠졌다.
-RATE_LIMIT_RPM = 12          # 모델당. 실제 한도 15 에서 여유를 뒀다
-_MIN_GAP = 60.0 / RATE_LIMIT_RPM
+RATE_LIMIT_RPM = 12          # 기본값(Flash Lite 계열). 실제 한도 15 에서 여유를 뒀다
+
+# **분당 한도는 계열마다 다르다.** AI Studio 대시보드 실측(2026-08-30):
+#   Flash Lite 계열   15 RPM
+#   풀 Flash 계열      5 RPM   ← 여기에 12 를 쓰면 한도의 2배가 넘는다
+# 예전에는 전 모델에 12 를 썼다. 429 응답에서 읽은 quotaValue=15 를 전부에
+# 일반화한 것이 화근이었다. 그 결과 풀 Flash 는 호출마다 429 → 1분 대기가 되어,
+# 과거분 이관에서 건당 30초가 걸렸다(8건/4분).
+MODEL_RPM = {
+    "gemini-3.6-flash": 4,
+    "gemini-3.7-flash": 4,
+    "gemini-3.5-flash": 4,
+    "gemini-3-flash-preview": 4,
+}
+
+
+def _min_gap(model: str) -> float:
+    return 60.0 / MODEL_RPM.get(model, RATE_LIMIT_RPM)
 _gate = asyncio.Lock()
 _last_call: dict[str, float] = {}
 
@@ -49,7 +65,7 @@ async def _throttle(model: str):
     """그 **모델의** 직전 호출과 간격을 벌린다."""
     async with _gate:
         now = asyncio.get_running_loop().time()
-        wait = _MIN_GAP - (now - _last_call.get(model, 0.0))
+        wait = _min_gap(model) - (now - _last_call.get(model, 0.0))
         if wait > 0:
             await asyncio.sleep(wait)
         _last_call[model] = asyncio.get_running_loop().time()
