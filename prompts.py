@@ -177,11 +177,15 @@ Bullets are ordinary sentences and follow the same rule.
 
 What this channel covers is **crypto, tokenisation and blockchain**. That has to be the **subject** of the piece.
 
+**This channel exists to track regulation and market structure across jurisdictions.**
+Select with that eye.
+
 **If the subject is crypto, publish it** — importance 3 is fine. For example:
-- where tokenised-equity volume went, which venue pulled ahead
-- on-chain facts (large withdrawals, wallet moves, a premium indicator turning)
-- third-party market figures (market-cap comparisons, fund flows)
+- regulatory, policy and legislative movement (this matters most)
+- security tokens, STOs and RWAs — their rules and actual product launches
+- institutional and traditional-finance entry, licences granted
 - a real dispute about the security or technology of a crypto asset
+- hacks and asset losses that bear on trust in the market
 
 **Discard the following as relevant=false.**
 - **Pieces whose subject is a prediction market.** Polymarket, Kalshi, ParlayX and the like —
@@ -189,6 +193,14 @@ What this channel covers is **crypto, tokenisation and blockchain**. That has to
   Running on a chain does not by itself make it this channel's subject.
 - **Pieces whose subject is AI.** AI agent economies, AI companies' earnings, funding and products,
   data centres, chip demand. A token attached to it does not change the subject.
+- **Pieces whose subject is price, quotes or flows.** This channel is not a price feed.
+  · price forecasts, target prices, technical analysis — "bitcoin to $150,000", "price target raised"
+  · how much something rose or fell — "up 19x", "down 3%", "new all-time high"
+  · **on-chain flows** — exchange deposits and withdrawals, whale wallet moves, net inflows
+  · **market indicators** — premiums, market-cap comparisons, volume rankings, dominance
+  · ETF inflow figures belong here too. But **ETF approvals, denials and rule changes stay.**
+  A big number confirmed by a third party does not change this. Market movement that is not
+  tied to regulation or market structure is not this channel's subject.
 - General news with no crypto angle: semiconductors, cars, property, politics, entertainment, sport, weather
 - General equity or macro news **with no link to crypto in the body**
   (except stories that belong in the rates or equities tabs — those are within scope, so relevant=true)
@@ -199,6 +211,10 @@ What this channel covers is **crypto, tokenisation and blockchain**. That has to
 - `Can a quantum computer break Bitcoin's signatures` → the subject is **Bitcoin security**. Publish.
 - `An AI agent shares its revenue with token holders` → the subject is **an AI business model**. Discard.
 - `Institutional money is flowing into prediction markets` → the subject is **prediction markets**. Discard.
+- `231m XRP moved off Binance` → the subject is **flows**. Discard.
+- `The SEC approved a spot XRP ETF` → the subject is **a regulatory decision**. Publish.
+- `Bitcoin set a new all-time high` → the subject is **price**. Discard.
+- `Japan's FSA licensed a stablecoin issuer` → the subject is **the rules**. Publish.
 
 When it is a close call, **write the subject out in one sentence**; publish if that subject is crypto, tokenisation or blockchain.
 
@@ -206,16 +222,22 @@ When it is a close call, **write the subject out in one sentence**; publish if t
 
 - **1-2**: routine maintenance notices, event and airdrop marketing, a project presenting its own business,
   pieces with no event at all — only "is growing", "is drawing attention".
-- **3**: something that actually happened in the market. **This is the channel's bread and butter — do not be stingy here.**
-  · volume, market cap, fund flows and other **third-party figures**, and how they changed
-  · **on-chain facts** — large withdrawals, wallet moves, a premium or flow indicator turning
+- **3**: something that actually happened in the rules or the market structure.
+  **This is the channel's bread and butter — do not be stingy here.**
+  · a regulator's announcement, review or opinion; an industry push on the rules
+  · anything on security tokens, STOs or RWAs
   · a real dispute about the technology or security of a specific asset or protocol
-  · a company or institution's crypto business decision (partnership, acquisition, product launch)
-- **4-5**: regulatory change, major listings and delistings, hacks and security incidents,
-  policy announcements, anything that moves the whole market.
+  · a company or institution's crypto business decision (partnership, acquisition, licence
+    application, product launch)
+- **4-5**: regulatory change, a bill passing or taking effect, major listings and delistings,
+  hacks and security incidents, policy announcements, real progress on security-token rules,
+  anything that moves the whole market.
 
-If there are figures and a third party has confirmed them, it is **at least a 3**. Do not give a 2
-because "it is not big news" — that judgement is already made by `relevant`, not by importance.
+If it bears on the rules or market structure, it is **at least a 3**. Do not give a 2 because
+"it is not big news" — that judgement is already made by `relevant`, not by importance.
+
+**Do not score price or flow pieces at all** — `relevant` has already discarded them.
+A large number is not a reason to give one a 3.
 
 - If there is a title but no body, write only what the title clearly supports and do not fill the bullets with guesses.
 
