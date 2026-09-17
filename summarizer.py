@@ -377,9 +377,14 @@ async def summarize_briefing(item: NewsItem) -> dict | None:
                 last_err = e
                 msg = str(e)
                 if _is_quota_exhausted(msg):
-                    if model not in _exhausted:
-                        _exhausted.add(model)
-                        print(f"[모델] {model} 일일 한도 소진 — 이번 실행에서 제외")
+                    # _exhausted 는 dict 다. 예전 코드가 set 시절의 .add() 를
+                    # 그대로 두고 있어서 여기 오면 AttributeError 로 터졌다 —
+                    # 심층 요약(FOMC·연준 연설)이 한도에 걸리면 재시도도 못 하고
+                    # '요약 실패'로 버려졌다.
+                    if _exhausted.get(model, 0) <= time.monotonic():
+                        wait = max(_retry_after(msg), 60)
+                        _rest(model, wait)
+                        print(f"[모델] {model} 한도 — {wait/60:.0f}분 쉬었다 다시 시도")
                     break
                 if _retryable(e, msg):
                     delay = _retry_after(msg) if "429" in msg or "RESOURCE_EXHAUSTED" in msg \
